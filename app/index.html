@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a0a09" />
+    <meta name="description" content="An offline six-panel cover art studio." />
+    <title>Gold Heist / Cover Studio</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./" aria-label="Gold Heist cover studio home">
+          <span class="brand-mark">GH</span>
+          <span>Gold Heist <small>Cover studio</small></span>
+        </a>
+        <div class="topbar-actions">
+          <span class="save-status" id="saveStatus"><span class="status-dot"></span>Local draft</span>
+          <button class="button button-quiet" type="button" id="resetButton">Reset layout</button>
+          <button class="button button-gold" type="button" id="exportButton">Export cover</button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="stage-column" aria-labelledby="studioTitle">
+          <div class="stage-heading">
+            <div>
+              <p class="section-label">Canvas / six panels</p>
+              <h1 id="studioTitle">Build the evidence.</h1>
+              <p class="intro">A street-level cover made from the pictures already in your pocket.</p>
+            </div>
+            <div class="stage-readout" aria-live="polite">
+              <strong id="activePanelLabel">Hero / panel 01</strong>
+              <span id="canvasDimensions">1080 × 1080</span>
+            </div>
+          </div>
+
+          <div class="canvas-frame">
+            <canvas id="coverCanvas" width="1080" height="1080" aria-label="Gold Heist six-panel cover preview"></canvas>
+            <div class="canvas-hint"><span class="hint-cursor">↕</span> Drag the active frame to pan / scroll to zoom</div>
+          </div>
+
+          <nav class="panel-strip" id="panelStrip" aria-label="Cover panels">
+            <button class="panel-slot is-active" type="button" data-panel="0">
+              <span class="slot-index">01</span><span class="slot-name">Hero</span><span class="slot-source">Pier</span>
+            </button>
+            <button class="panel-slot" type="button" data-panel="1">
+              <span class="slot-index">02</span><span class="slot-name">Lookout</span><span class="slot-source">Boulevard</span>
+            </button>
+            <button class="panel-slot" type="button" data-panel="2">
+              <span class="slot-index">03</span><span class="slot-name">Getaway</span><span class="slot-source">Pier</span>
+            </button>
+            <button class="panel-slot" type="button" data-panel="3">
+              <span class="slot-index">04</span><span class="slot-name">Trace</span><span class="slot-source">Boulevard</span>
+            </button>
+            <button class="panel-slot" type="button" data-panel="4">
+              <span class="slot-index">05</span><span class="slot-name">Alibi</span><span class="slot-source">Pier</span>
+            </button>
+            <button class="panel-slot" type="button" data-panel="5">
+              <span class="slot-index">06</span><span class="slot-name">Witness</span><span class="slot-source">Boulevard</span>
+            </button>
+          </nav>
+        </section>
+
+        <aside class="inspector" aria-label="Cover controls">
+          <section class="control-section">
+            <div class="section-heading">
+              <div>
+                <p class="section-label">01 / Source</p>
+                <h2>Bring the light.</h2>
+              </div>
+              <label class="button button-small button-outline" for="photoInput">Load photos<input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" multiple /></label>
+            </div>
+            <p class="control-note" id="photoStatus">Two local samples are ready. Select a panel, then choose a photo.</p>
+            <div class="photo-tray" id="photoTray" aria-label="Loaded photos"></div>
+          </section>
+
+          <section class="control-section">
+            <div class="section-heading compact-heading">
+              <div>
+                <p class="section-label">02 / Framing</p>
+                <h2>Find the angle.</h2>
+              </div>
+              <output class="value-readout" id="zoomValue" for="zoomRange">100%</output>
+            </div>
+            <label class="range-label" for="zoomRange">Zoom <input id="zoomRange" type="range" min="100" max="260" value="100" step="1" /></label>
+            <div class="pan-control" aria-label="Pan active panel">
+              <button type="button" data-pan="up" aria-label="Pan up">↑</button>
+              <button type="button" data-pan="left" aria-label="Pan left">←</button>
+              <span>pan</span>
+              <button type="button" data-pan="right" aria-label="Pan right">→</button>
+              <button type="button" data-pan="down" aria-label="Pan down">↓</button>
+            </div>
+          </section>
+
+          <section class="control-section">
+            <div class="section-heading compact-heading">
+              <div>
+                <p class="section-label">03 / Voice</p>
+                <h2>Name the score.</h2>
+              </div>
+              <span class="character-count" id="characterCount">0 / 34</span>
+            </div>
+            <label class="sr-only" for="captionInput">Cover caption</label>
+            <textarea id="captionInput" maxlength="34" rows="2" spellcheck="false">Sunset Heist</textarea>
+          </section>
+
+          <section class="control-section grade-section">
+            <div class="section-heading compact-heading">
+              <div>
+                <p class="section-label">04 / Grade</p>
+                <h2>Choose the evidence.</h2>
+              </div>
+              <span class="grade-chip" id="gradeLabel">Archive</span>
+            </div>
+            <div class="grade-grid" id="gradeGrid">
+              <button class="grade-button is-active" type="button" data-grade="archive"><span class="grade-swatch swatch-archive"></span>Archive</button>
+              <button class="grade-button" type="button" data-grade="noir"><span class="grade-swatch swatch-noir"></span>Noir</button>
+              <button class="grade-button" type="button" data-grade="xerox"><span class="grade-swatch swatch-xerox"></span>Xerox</button>
+              <button class="grade-button" type="button" data-grade="sunset"><span class="grade-swatch swatch-sunset"></span>Sunset</button>
+            </div>
+          </section>
+
+          <div class="privacy-note"><span class="lock-mark">▣</span><span>Local studio. Your photos never leave this device.</span></div>
+        </aside>
+      </main>
+
+      <footer class="footer-bar">
+        <span>Gold Heist / take 01</span>
+        <span>Designed for the unexpected route home</span>
+      </footer>
+    </div>
+
+    <dialog class="export-dialog" id="exportDialog" aria-labelledby="exportTitle">
+      <form method="dialog">
+        <div class="dialog-topline"><span class="section-label">Final frame</span><button class="dialog-close" value="cancel" aria-label="Close export dialog">×</button></div>
+        <h2 id="exportTitle">Export the cover.</h2>
+        <p>Select a resolution. The image is rendered in your browser and saved to your downloads.</p>
+        <div class="export-options">
+          <button class="export-option" type="button" data-size="1080"><strong>1080</strong><span>Square / quick share</span></button>
+          <button class="export-option" type="button" data-size="2160"><strong>2160</strong><span>Square / print ready</span></button>
+          <button class="export-option" type="button" data-size="4320"><strong>4320</strong><span>Square / full detail</span></button>
+        </div>
+        <div class="dialog-foot"><span id="exportStatus">Choose a size to save.</span><button class="button button-quiet" value="cancel">Keep editing</button></div>
+      </form>
+    </dialog>
+
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
